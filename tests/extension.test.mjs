@@ -41,7 +41,7 @@ function load(opts) {
   const orig = Module._resolveFilename
   Module._resolveFilename = function (req, ...rest) { return req === 'vscode' ? 'vscode' : orig.call(this, req, ...rest) }
   Module._cache['vscode'] = { id: 'vscode', filename: 'vscode', loaded: true, exports: f.vs }
-  for (const k of Object.keys(require.cache)) if (k.includes('claude-code-panel') && k.endsWith('extension.js')) delete require.cache[k]
+  delete require.cache[require.resolve('../extension.js')] // exact path: must not depend on the checkout folder name
   const ext = require('../extension.js')
   const subs = []
   ext.activate({ subscriptions: subs, globalState: { get: () => f.state, update: (k, v) => { f.state = v } } })
