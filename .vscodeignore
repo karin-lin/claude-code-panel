@@ -1,0 +1,7 @@
+tests/**
+scripts/**
+examples/**
+docs/**
+*.vsix
+.gitignore
+.DS_Store

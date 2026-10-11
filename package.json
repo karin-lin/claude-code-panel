@@ -1,0 +1,160 @@
+{
+  "name": "claude-code-panel",
+  "displayName": "Claude Code Panel",
+  "description": "A side panel and status bar for Claude Code in VS Code and Cursor: quota, current activity, task progress, context and token usage. Reads local files; no telemetry.",
+  "version": "0.1.0",
+  "publisher": "karin-lin",
+  "author": "karin-lin",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/karin-lin/claude-code-panel.git"
+  },
+  "bugs": {
+    "url": "https://github.com/karin-lin/claude-code-panel/issues"
+  },
+  "homepage": "https://github.com/karin-lin/claude-code-panel#readme",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other",
+    "Visualization"
+  ],
+  "keywords": [
+    "claude",
+    "claude code",
+    "usage",
+    "quota",
+    "tokens",
+    "progress",
+    "dashboard"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./extension.js",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "demo": "node scripts/render-harness.mjs screenshots",
+    "package": "npx --yes @vscode/vsce package --allow-missing-repository --skip-license"
+  },
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "claudeCodePanel",
+          "title": "Claude Code",
+          "icon": "media/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "claudeCodePanel": [
+        {
+          "type": "webview",
+          "id": "claudeCodePanel.view",
+          "name": "Panel"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "claudeCodePanel.focus",
+        "title": "Claude Code Panel: Open"
+      },
+      {
+        "command": "claudeCodePanel.refresh",
+        "title": "Claude Code Panel: Refresh now"
+      },
+      {
+        "command": "claudeCodePanel.unpin",
+        "title": "Claude Code Panel: Unpin session"
+      },
+      {
+        "command": "claudeCodePanel.quotaSetup",
+        "title": "Claude Code Panel: Set up quota"
+      },
+      {
+        "command": "claudeCodePanel.installStatuslineHelper",
+        "title": "Claude Code Panel: Install statusline helper"
+      },
+      {
+        "command": "claudeCodePanel.uninstallStatuslineHelper",
+        "title": "Claude Code Panel: Uninstall statusline helper"
+      }
+    ],
+    "configuration": {
+      "title": "Claude Code Panel",
+      "properties": {
+        "claudeCodePanel.claudeDir": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "Claude Code config directory. Empty means `$CLAUDE_CONFIG_DIR` or `~/.claude`."
+        },
+        "claudeCodePanel.pollSeconds": {
+          "type": "number",
+          "default": 5,
+          "minimum": 2,
+          "description": "How often to re-read local files (seconds). No network involved."
+        },
+        "claudeCodePanel.contextWindow": {
+          "type": "number",
+          "default": 200000,
+          "description": "Context window size in tokens, used for the percentage. Grows automatically to 1M if a request exceeds it."
+        },
+        "claudeCodePanel.quota.source": {
+          "type": "string",
+          "default": "ask",
+          "enum": [
+            "ask",
+            "off",
+            "file",
+            "api"
+          ],
+          "enumDescriptions": [
+            "Ask me on first run",
+            "Do not show quota",
+            "Read a local JSON file (statusline helper or your own script)",
+            "Call Anthropic's usage endpoint with your Claude Code login (network)"
+          ],
+          "description": "Where the 5-hour / weekly quota numbers come from."
+        },
+        "claudeCodePanel.quota.file": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "JSON file to read when source is `file`. Empty means the statusline helper's output under the Claude config dir. See docs/CUSTOMIZING.md for the accepted formats."
+        },
+        "claudeCodePanel.quota.apiIntervalSeconds": {
+          "type": "number",
+          "default": 300,
+          "minimum": 120,
+          "description": "Minimum seconds between usage endpoint requests when source is `api`."
+        },
+        "claudeCodePanel.quota.warnAt": {
+          "type": "number",
+          "default": 80,
+          "description": "Turn yellow at this percentage."
+        },
+        "claudeCodePanel.quota.critAt": {
+          "type": "number",
+          "default": 95,
+          "description": "Turn red at this percentage."
+        },
+        "claudeCodePanel.quota.lines": {
+          "type": "object",
+          "default": {},
+          "markdownDescription": "Optional personal limit lines, e.g. `{ \"five_hour\": 65, \"seven_day\": 70 }`. Draws a tick and counts the distance to it."
+        },
+        "claudeCodePanel.progressFiles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "markdownDescription": "Extra progress files or folders (JSON). See docs/CUSTOMIZING.md."
+        }
+      }
+    }
+  }
+}

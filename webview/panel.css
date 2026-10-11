@@ -1,0 +1,130 @@
+:root {
+  --ok: var(--vscode-charts-green, #3fb950);
+  --warn: var(--vscode-charts-yellow, #d29922);
+  --bad: var(--vscode-charts-red, #f85149);
+  --muted: var(--vscode-descriptionForeground, #8b949e);
+  --border: var(--vscode-widget-border, var(--vscode-panel-border, rgba(128,128,128,.25)));
+  --card: var(--vscode-editorWidget-background, var(--vscode-editor-background, #1e1e1e));
+  --track: color-mix(in srgb, var(--vscode-foreground, #ccc) 12%, transparent);
+  --hover: color-mix(in srgb, var(--vscode-foreground, #ccc) 5%, transparent);
+}
+* { box-sizing: border-box }
+body { margin: 0; padding: 8px clamp(6px, 3vw, 12px) 24px; font: 12px/1.45 var(--vscode-font-family, system-ui); color: var(--vscode-foreground, #ccc); background: var(--vscode-sideBar-background, #181818) }
+.hdr { display: flex; justify-content: space-between; align-items: baseline; margin: 2px 0 10px }
+.hdr h1 { font-size: 13px; font-weight: 600; margin: 0 }
+.hdr .t { color: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums }
+.card { border: 1px solid var(--border); border-radius: 6px; background: var(--card); padding: 10px 11px; min-width: 0 }
+.card h2 { font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); margin: 0 0 8px }
+.row { display: flex; justify-content: space-between; align-items: baseline; gap: 8px }
+.row .name { font-weight: 600 }
+.row .val { font-variant-numeric: tabular-nums; font-weight: 600; white-space: nowrap }
+.bar { position: relative; height: 6px; border-radius: 3px; background: var(--track); margin: 5px 0 4px }
+.bar .fill { height: 100%; border-radius: 3px; background: var(--ok); transition: width .4s ease; width: 0 }
+.bar .fill.warn { background: var(--warn) }
+.bar .fill.bad { background: var(--bad) }
+.bar .mark { position: absolute; top: -3px; width: 2px; height: 12px; margin-left: -1px; background: var(--vscode-foreground, #ccc); opacity: .55; border-radius: 1px }
+.sub { color: var(--muted); font-size: 11px; margin-bottom: 8px; font-variant-numeric: tabular-nums }
+.sub b { color: var(--vscode-foreground, #ccc); font-weight: 600 }
+.verdict { margin-top: 2px; font-weight: 600 }
+.verdict.warn { color: var(--warn) }
+.verdict.bad { color: var(--bad) }
+.foot { color: var(--muted); font-size: 11px; margin-top: 6px; line-height: 1.5 }
+.title { font-size: 13px; font-weight: 600; margin-bottom: 2px; overflow-wrap: anywhere }
+.meta { color: var(--muted); font-size: 11px; overflow-wrap: anywhere }
+.action { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; margin: 8px 0 4px }
+.action .ago { font-size: 11px; color: var(--muted); font-weight: 400; margin-left: auto; white-space: nowrap }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); flex: none; opacity: .6 }
+.dot.run { background: var(--ok); opacity: 1; box-shadow: 0 0 0 3px color-mix(in srgb, var(--ok) 28%, transparent); animation: pulse 1.6s ease-in-out infinite }
+.dot.wait { background: var(--warn); opacity: 1; animation: pulse 1.2s ease-in-out infinite }
+.dot.bad { background: var(--bad); opacity: 1 }
+@keyframes pulse { 50% { box-shadow: 0 0 0 6px transparent } }
+.kv { display: grid; grid-template-columns: auto 1fr; gap: 3px 10px; font-size: 11px; margin: 8px 0 0 }
+.kv dt { color: var(--muted); white-space: nowrap }
+.kv dd { margin: 0; font-variant-numeric: tabular-nums; overflow-wrap: anywhere }
+.chips { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px }
+.chip { font-size: 10.5px; padding: 1px 7px; border-radius: 10px; background: var(--track); font-variant-numeric: tabular-nums; white-space: nowrap }
+.list { list-style: none; margin: 0; padding: 0 }
+.list li { display: flex; gap: 8px; align-items: center; padding: 6px 2px; border-top: 1px solid var(--border) }
+.list li:first-child { border-top: 0 }
+.list li[data-pin] { cursor: pointer }
+.list li[data-pin]:hover { background: var(--hover) }
+.list .main { flex: 1; min-width: 0 }
+.list .ttl { white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
+.list .meta { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 10.5px }
+.stp { width: 14px; text-align: center; flex: none; color: var(--muted) }
+.stp.done { color: var(--ok) }
+.stp.doing { color: var(--warn) }
+.btn { background: none; border: 1px solid var(--border); color: var(--vscode-foreground, #ccc); border-radius: 4px; font-size: 10.5px; padding: 1px 7px; cursor: pointer; white-space: nowrap; font-family: inherit }
+.btn:hover { background: var(--hover) }
+.empty { color: var(--muted); font-size: 11px; line-height: 1.5 }
+.tiny { color: var(--muted); font-size: 10.5px; font-weight: 400; font-variant-numeric: tabular-nums }
+.tiny b { color: var(--vscode-foreground, #ccc); font-weight: 600 }
+.tiny b.stop { color: var(--bad) }
+.foot1 { margin-top: 3px }
+.verdict { font-size: 12px }
+.title.one { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; flex: 1 }
+.one-meta { margin-top: 1px; overflow-wrap: anywhere }
+.tiny.l { margin-top: 2px }
+.lnk { color: var(--vscode-textLink-foreground, #3794ff); cursor: pointer; text-decoration: none }
+.lnk:hover { text-decoration: underline }
+.action { margin: 6px 0 2px; font-size: 13px }
+.bar { margin: 4px 0 6px }
+.chips { margin-top: 6px }
+
+/* ── Responsive: by panel width (container queries)──────────────────────────── */
+#app { container-type: inline-size }
+.grid { display: grid; grid-template-columns: 1fr; gap: 10px }
+.row { flex-wrap: wrap; row-gap: 0 }
+@container (min-width: 620px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start } }
+@container (min-width: 940px) { .grid { grid-template-columns: repeat(3, minmax(0, 1fr)) } }
+/* Narrow: drop secondary info, keep quota / progress / action */
+@container (max-width: 270px) {
+  .grid { gap: 6px }
+  .card { padding: 7px 8px }
+  .card h2 { margin-bottom: 5px; font-size: 10.5px }
+  .hdr { margin-bottom: 6px }
+  .hdr .t, .foot, .foot1, .chips, .list .meta, .tiny.l:nth-of-type(n+2), .sub .opt { display: none }
+  .list li { padding: 4px 1px }
+  .action { font-size: 12px; margin: 4px 0 2px }
+  .title { font-size: 12px }
+  .verdict { font-size: 11px }
+}
+@container (max-width: 200px) {
+  .tiny { font-size: 10px }
+  .row .tiny { flex-basis: 100% ; order: 3 }
+  .one-meta { display: none }
+  .list .ttl { font-size: 11px }
+}
+
+.card h2.fold { cursor: pointer; user-select: none; display: flex; align-items: baseline; gap: 5px }
+.card h2.fold:hover { color: var(--vscode-foreground, #ccc) }
+.chev { display: inline-block; width: 10px; color: var(--muted); font-size: 10px }
+.who { color: var(--muted); font-size: 10.5px; margin: -4px 0 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
+.hintline { font-size: 11px; font-weight: 500; line-height: 1.45; margin: 6px 0 4px }
+.curstep { display: flex; align-items: baseline; gap: 6px; margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--border); font-size: 12px; min-width: 0 }
+.curstep .ttl { white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
+.curstep .ttl { flex: none; max-width: 70% }
+.curstep .tiny { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+
+/* ── Tabs ── */
+.tabs { display: flex; gap: 2px; margin: 0 0 10px; border-bottom: 1px solid var(--border) }
+.tab { flex: 1; background: none; border: 0; border-bottom: 2px solid transparent; color: var(--muted); font: inherit; font-size: 12px; padding: 5px 4px 6px; cursor: pointer; margin-bottom: -1px }
+.tab:hover { color: var(--vscode-foreground, #ccc) }
+.tab.on { color: var(--vscode-foreground, #ccc); border-bottom-color: var(--vscode-focusBorder, #3794ff); font-weight: 600 }
+.badge { display: inline-block; min-width: 15px; margin-left: 4px; padding: 0 4px; border-radius: 8px; background: var(--vscode-badge-background, #3794ff); color: var(--vscode-badge-foreground, #fff); font-size: 10px; line-height: 15px; text-align: center }
+.bar.thin { height: 4px; margin: 3px 0 2px }
+.title.two { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; white-space: normal; flex: 1; min-width: 0 }
+.chips.tags { margin: 5px 0 2px }
+.who { font-size: 11.5px; margin: -3px 0 7px }
+.list li[data-tab] { cursor: pointer }
+.list li[data-tab]:hover { background: var(--hover) }
+.list li[data-tab] .row .ttl { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0 }
+@container (max-width: 270px) {
+  .kv { grid-template-columns: 1fr; gap: 0 }
+  .kv dt { font-size: 10px; margin-top: 4px }
+  .tab { font-size: 11px; padding: 4px 2px 5px }
+}
+
+.bar .pace { position: absolute; top: -2px; width: 0; height: 10px; border-left: 1px dashed var(--muted); opacity: .8 }
+.btn.primary { background: var(--vscode-button-background, #0e639c); color: var(--vscode-button-foreground, #fff); border-color: transparent; padding: 3px 10px; margin-top: 6px }
+.btn.primary:hover { background: var(--vscode-button-hoverBackground, #1177bb) }
